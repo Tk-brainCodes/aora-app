@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
 import { Image } from "react-native";
 import CustomButton from "@/components/CustomButton";
-import { StatusBar } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
 export default function HomeScreen() {
   return (
@@ -51,7 +51,7 @@ export default function HomeScreen() {
         </View>
       </ScrollView>
 
-      <StatusBar backgroundColor='#161622' barStyle='light-content' />
+      <StatusBar backgroundColor='#161622' style='light' />
     </SafeAreaView>
   );
 }

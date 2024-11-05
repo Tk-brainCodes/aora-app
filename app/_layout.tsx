@@ -3,8 +3,6 @@ import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { SplashScreen } from "expo-router";
 import React, { useEffect } from "react";
-import { Slot } from "expo-router";
-import { View } from "react-native";
 import "../global.css";
 
 SplashScreen.preventAutoHideAsync();
@@ -38,6 +36,9 @@ const RootLayout = () => {
   return (
     <Stack>
       <Stack.Screen name='index' options={{ headerShown: false }} />
+      <Stack.Screen name='(auth)' options={{ headerShown: false }} />
+      <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+      <Stack.Screen name='/search/[query]' options={{ headerShown: false }} />
     </Stack>
   );
 };
