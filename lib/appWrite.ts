@@ -2,12 +2,12 @@ import { UserProps } from "@/types/user-types";
 
 export const appWriteConfig = {
   endpoint: `${process.env.ENDPOINT}`,
-  platform: ``,
-  projectId: "672a4cc8003aae89c2dd",
-  databaseId: "672a628a001df6df1a30",
-  userCollectionId: "672a62ca001ab5d9656b",
-  videoCollectionId: "672a62e80014144a35b3",
-  storageBucketId: "672a69cc00299c813276",
+  platform: `${process.env.PLATFORM}`,
+  projectId: `${process.env.PROJECT_ID}`,
+  databaseId: `${process.env.DATABASE_ID}`,
+  userCollectionId: `${process.env.USERCOLLECTION_ID}`,
+  videoCollectionId: `${process.env.VIDEOCOLLECTION_ID}`,
+  storageBucketId: `${process.env.STORAGEBUCKET_ID}`,
 };
 
 import { Client, Account, ID, Models } from "react-native-appwrite";
