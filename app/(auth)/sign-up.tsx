@@ -1,16 +1,18 @@
 import { useState } from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
+import { Link } from "expo-router";
 import FormField from "@/components/FormField";
 import CustomButton from "@/components/CustomButton";
-import { Link } from "expo-router";
+import { createNewUser } from "@/lib/appWrite";
+import { router } from "expo-router";
+import { useGlobalContext } from "@/context/GlobalContext";
 
 import React from "react";
 
-//com.beginner.aora
-
 const SignUp = () => {
+  const { setUser, setLoggedIn } = useGlobalContext();
   const [form, setForm] = useState({
     username: "",
     email: "",
@@ -19,7 +21,31 @@ const SignUp = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = () => {};
+  const handleSubmit = async () => {
+    if (!form.email || !form.password || !form.username) {
+      Alert.alert("Error", "Please fill in the form fields");
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const result = await createNewUser(
+        form.email,
+        form.password,
+        form.username
+      );
+
+      setUser(result);
+      setLoggedIn(true);
+      Alert.alert("Success", "Signup successful");
+
+      router.replace("/home");
+    } catch (error: any) {
+      Alert.alert("Error", error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <SafeAreaView className='bg-primary h-full'>
@@ -36,7 +62,7 @@ const SignUp = () => {
 
           <FormField
             title='Username'
-            value={form.email}
+            value={form.username}
             handleChangeText={(e) => setForm({ ...form, username: e })}
             otherStyles='mt-10'
             placeholder='Your unique username'
