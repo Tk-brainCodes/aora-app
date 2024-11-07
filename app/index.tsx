@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { Redirect, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -5,8 +6,16 @@ import { StyleSheet } from "react-native";
 import { Image } from "react-native";
 import CustomButton from "@/components/CustomButton";
 import { StatusBar } from "expo-status-bar";
+import { useGlobalContext } from "@/context/GlobalContext";
+import { signOut } from "@/lib/appWrite";
 
 export default function HomeScreen() {
+  const { isLoggedin, isLoading } = useGlobalContext();
+
+  if (isLoggedin && !isLoading) {
+    return <Redirect href='/home' />;
+  }
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={{ height: "100%" }}>
@@ -48,6 +57,13 @@ export default function HomeScreen() {
             isLoading={false}
             textStyles=''
           />
+          {/* <CustomButton
+            title='Logout test'
+            onPress={() => signOut()}
+            containerStyle='w-full mt-7'
+            isLoading={false}
+            textStyles=''
+          /> */}
         </View>
       </ScrollView>
 
