@@ -1,11 +1,19 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, FlatList } from "react-native";
 import React from "react";
+import { useGlobalContext } from "@/context/GlobalContext";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Home = () => {
+  const { isLoggedin, user } = useGlobalContext();
+
   return (
-    <View>
-      <Text>Home</Text>
-    </View>
+    <SafeAreaView>
+      <FlatList
+        data={[{ id: 1 }]}
+        keyExtractor={(item) => item.$id}
+        renderItem={({ item }) => <Text>{item.id}</Text>}
+      />
+    </SafeAreaView>
   );
 };
 
