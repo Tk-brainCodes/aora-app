@@ -9,7 +9,6 @@ import {
 } from "react-native";
 
 interface FormFieldProps {
-  title: string;
   value: string;
   handleChangeText: (text: string) => void;
   otherStyles?: string;
@@ -18,7 +17,6 @@ interface FormFieldProps {
 }
 
 const SearchInput = ({
-  title,
   value,
   handleChangeText,
   otherStyles,
@@ -29,8 +27,6 @@ const SearchInput = ({
 
   return (
     <View className={`space-y-2 ${otherStyles}`}>
-      <Text className='text-base text-gray-100 font-pmedium'>{title}</Text>
-
       <View className='w-full flex-row h-16 px-4 bg-black-100 rounded-2xl focus:border-secondary items-center border-2 border-black-200'>
         <TextInput
           value={value}
