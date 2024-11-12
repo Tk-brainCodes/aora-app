@@ -1,19 +1,33 @@
-import { StyleSheet, Text, View, FlatList } from "react-native";
-import React from "react";
+import { useState, useEffect } from "react";
+import { StyleSheet, Text, View, FlatList, Alert } from "react-native";
 import { useGlobalContext } from "@/context/GlobalContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import SearchInput from "@/components/SearchInput";
+import Trending from "@/components/Trending";
+import EmptyState from "@/components/EmptyState";
+import { RefreshControl } from "react-native";
+import useAppwrite from "@/lib/useAppwrite";
+import { getAllPosts } from "@/lib/appWrite";
+import VideoCard from "@/components/VideoCard";
 
 const Home = () => {
   const { isLoggedin, user } = useGlobalContext();
+  const { data: posts, loading, refetch } = useAppwrite(getAllPosts);
+  const [refreshing, setrefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setrefreshing(true);
+    refetch();
+    setrefreshing(false);
+  };
 
   return (
-    <SafeAreaView className='bg-primary'>
+    <SafeAreaView className='bg-primary flex-1 h-full'>
       <FlatList
-        data={[{ id: 1 }]}
+        data={posts["_j"]}
         keyExtractor={(item) => item.$id}
-        renderItem={({ item }) => <Text>{item.id}</Text>}
+        renderItem={({ item }) => <VideoCard video={item}/>}
         ListHeaderComponent={() => (
           <View className='flex my-6 px-4 space-y-6'>
             <View className='flex justify-between items-start flex-row mb-6'>
@@ -34,12 +48,26 @@ const Home = () => {
               </View>
             </View>
 
-            {/*Search input component*/}
-            {/* <SearchInput
-            
-            /> */}
+            <SearchInput placeholder='Search for a video topic' />
+
+            <View className='w-full flex-1 pt-5 pb-8'>
+              <Text className='text-gray-100 text-lg font-pregular mb-3'>
+                Latest Videos
+              </Text>
+
+              <Trending post={[{ id: 1 }, { id: 2 }, { id: 3 }] ?? []} />
+            </View>
           </View>
         )}
+        ListEmptyComponent={() => (
+          <EmptyState
+            title='No videos found'
+            subtitle='Be the first one to create a video'
+          />
+        )}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     </SafeAreaView>
   );
