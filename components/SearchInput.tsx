@@ -5,14 +5,14 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Image,
 } from "react-native";
+import { Image } from "react-native";
+import { icons } from "@/constants";
 
 interface FormFieldProps {
   value: string;
   handleChangeText: (text: string) => void;
   otherStyles?: string;
-  keyboardType?: "default" | "email-address" | "numeric" | "phone-pad";
   placeholder: string;
 }
 
@@ -20,36 +20,25 @@ const SearchInput = ({
   value,
   handleChangeText,
   otherStyles,
-  keyboardType,
   ...props
 }: FormFieldProps) => {
-  const [showPassword, setShowPassword] = useState(false);
-
   return (
-    <View className={`space-y-2 ${otherStyles}`}>
-      <View className='w-full flex-row h-16 px-4 bg-black-100 rounded-2xl focus:border-secondary items-center border-2 border-black-200'>
-        <TextInput
-          value={value}
-          className='text-white flex-1 font-psemibold text-base'
-          placeholder={props.placeholder}
-          placeholderTextColor='#7b7b8b'
-          onChangeText={handleChangeText}
-          secureTextEntry={title === "Password" && !showPassword}
+    <View className='flex flex-row items-center space-x-4 w-full h-16 px-4 bg-black-100 rounded-2xl border-2 border-black-200 focus:border-secondary'>
+      <TextInput
+        value={value}
+        className='text-base mt-0.5 text-white flex-1 font-pregular'
+        placeholder={props.placeholder}
+        placeholderTextColor='#7b7b8b'
+        onChangeText={handleChangeText}
+      />
+
+      <TouchableOpacity>
+        <Image
+          source={require("@/assets/icons/search.png")}
+          className='w-5 h-5'
+          resizeMode='contain'
         />
-        {title === "Password" && (
-          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-            <Image
-              source={
-                !showPassword
-                  ? require("@/assets/icons/eye.png")
-                  : require("@/assets/icons/eye-hide.png")
-              }
-              resizeMode='contain'
-              className='w-6 h-6'
-            />
-          </TouchableOpacity>
-        )}
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };
