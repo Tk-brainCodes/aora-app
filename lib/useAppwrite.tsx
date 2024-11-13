@@ -1,28 +1,31 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Alert } from "react-native";
 
-const useAppwrite = (fn: any) => {
-  const [data, setdata] = useState<any>([]);
-  const [loading, setloading] = useState(true);
+const useAppwrite = (fn: () => Promise<any>) => {
+  const [data, setData] = useState<any>([]);
+  const [loading, setLoading] = useState(true);
 
-  const fetchData = async () => {
-    setloading(true);
-
+  // Memoize the fetchData function using useCallback
+  const fetchData = useCallback(async () => {
+    setLoading(true);
     try {
-      const response = fn();
-      setdata(response);
+      const response = await fn();
+      setData(response);
     } catch (error: any) {
       Alert.alert("Error", error.message);
     } finally {
-      setloading(false);
+      setLoading(false);
     }
-  };
+  }, [fn]);
 
+  // Run fetchData on component mount
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
-  const refetch = () => fetchData();
+  // Refetch function to manually trigger data fetching
+  const refetch = fetchData;
+
   return { data, loading, refetch };
 };
 
