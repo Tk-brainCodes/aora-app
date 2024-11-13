@@ -2,6 +2,8 @@ import { StyleSheet, Text, View } from "react-native";
 import { Image } from "react-native";
 import { router } from "expo-router";
 import CustomButton from "./CustomButton";
+import { getAllPosts, getLatestPosts } from "@/lib/appWrite";
+import useAppwrite from "@/lib/useAppwrite";
 
 interface EmptyProp {
   title: string;
@@ -9,6 +11,9 @@ interface EmptyProp {
 }
 
 const EmptyState = ({ title, subtitle }: EmptyProp) => {
+  const { refetch: refetchForAllPosts } = useAppwrite(getAllPosts);
+  const { refetch: refetchForLatestPosts } = useAppwrite(getLatestPosts);
+
   return (
     <View className='justify-center items-center px-4 '>
       <Image
@@ -26,7 +31,16 @@ const EmptyState = ({ title, subtitle }: EmptyProp) => {
         title='Create video'
         onPress={() => router.push("/create")}
         containerStyle='w-full my-5'
-        
+        textStyles=''
+      />
+      <CustomButton
+        title='Refresh'
+        onPress={() => {
+          refetchForAllPosts();
+          refetchForLatestPosts();
+        }}
+        containerStyle='w-full my-5'
+        textStyles=''
       />
     </View>
   );
