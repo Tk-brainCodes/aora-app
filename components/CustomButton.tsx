@@ -5,7 +5,7 @@ interface CustomButtonProps {
   title: string;
   onPress: () => void;
   containerStyle: string;
-  isLoading: boolean;
+  isLoading?: boolean;
   textStyles: "";
 }
 
